@@ -1,7 +1,6 @@
 {
-  "name": "valeria-backend",
+  "name": "eai-backend",
   "version": "1.0.0",
-  "description": "Backend seguro para chatbot Valeria",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
