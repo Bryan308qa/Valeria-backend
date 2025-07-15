@@ -27,7 +27,8 @@ module.exports = async (req, res) => {
     res.status(200).json({ respuesta });
 
   } catch (error) {
-    console.error('Error interno:', error.message);
+    console.error('Error interno:', error.response?.data || error.message);
     res.status(500).json({ error: 'Error interno del servidor' });
+  }
   }
 };
