@@ -1,18 +1,12 @@
-import { Configuration, OpenAIApi } from 'openai';
-
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-};
+const { Configuration, OpenAIApi } = require('openai');
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const openai = new OpenAIApi(configuration);
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido' });
   }
@@ -36,4 +30,4 @@ export default async function handler(req, res) {
     console.error('Error interno:', error.message);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
-}
+};
