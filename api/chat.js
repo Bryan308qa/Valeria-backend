@@ -1,8 +1,16 @@
-const OpenAI = require("openai");
+const { Configuration, OpenAIApi } = require("openai");
+const cors = require("cors");
+const express = require("express");
+const app = express();
 
-const openai = new OpenAI({
+app.use(cors());
+app.use(express.json());
+
+const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
+const openai = new OpenAIApi(configuration);
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
@@ -16,15 +24,15 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const respuesta = await openai.chat.completions.create({
+    const respuesta = await openai.createChatCompletion({
       model: "gpt-4",
       messages: [{ role: "user", content: mensaje }],
     });
 
-    const texto = respuesta.choices[0].message.content;
-    res.status(200).json({ respuesta: texto });
+    const mensajeRespuesta = respuesta.data.choices[0].message.content;
+    res.status(200).json({ respuesta: mensajeRespuesta });
   } catch (error) {
-    console.error("Error interno:", error.message || error);
+    console.error("Error interno:", error.message);
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
